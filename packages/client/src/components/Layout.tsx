@@ -1,0 +1,126 @@
+/**
+ * App-shell layout: header, main outlet, footer. Matches the wireframes in
+ * spec Appendix B (the navy header bar with five primary links + Sign In).
+ *
+ * The Sign-In CTA in the top right swaps to a user menu (display name +
+ * Sign Out button) once the user is authenticated.
+ */
+import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from '../context/AuthContext';
+import './layout.css';
+
+const NAV_ITEMS = [
+  { to: '/discover', label: 'Discover' },
+  { to: '/artists', label: 'Artists' },
+  { to: '/gigs', label: 'Gigs' },
+  { to: '/search', label: 'Search' },
+] as const;
+
+function HeaderAuthSlot() {
+  const { user, isAuthenticated, signOut, isSubmitting } = useAuth();
+  const navigate = useNavigate();
+
+  async function onSignOut() {
+    try {
+      await signOut();
+    } finally {
+      navigate('/', { replace: true });
+    }
+  }
+
+  if (!isAuthenticated || !user) {
+    return (
+      <>
+        <li>
+          <Link to="/account/sign-up" className="nav-link">
+            Sign Up
+          </Link>
+        </li>
+        <li>
+          <Link to="/account/sign-in" className="nav-link nav-link--cta">
+            Sign In
+          </Link>
+        </li>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <li>
+        <Link to="/account" className="nav-link">
+          {user.displayName}
+        </Link>
+      </li>
+      <li>
+        <button
+          type="button"
+          onClick={onSignOut}
+          disabled={isSubmitting}
+          className="nav-link nav-link--button"
+        >
+          Sign Out
+        </button>
+      </li>
+    </>
+  );
+}
+
+function LayoutShell() {
+  return (
+    <>
+      <a href="#main" className="skip-link">
+        Skip to main content
+      </a>
+
+      <header className="site-header">
+        <div className="container site-header__row">
+          <Link to="/" className="brand">
+            StageOne
+          </Link>
+          <nav aria-label="Primary">
+            <ul className="nav-list">
+              {NAV_ITEMS.map((item) => (
+                <li key={item.to}>
+                  <NavLink
+                    to={item.to}
+                    className={({ isActive }) =>
+                      isActive ? 'nav-link nav-link--active' : 'nav-link'
+                    }
+                  >
+                    {item.label}
+                  </NavLink>
+                </li>
+              ))}
+              <HeaderAuthSlot />
+            </ul>
+          </nav>
+        </div>
+      </header>
+
+      <main id="main" className="container site-main">
+        <Outlet />
+      </main>
+
+      <footer className="site-footer">
+        <div className="container site-footer__row">
+          <span>© 2026 StageOne — WEB 268 capstone.</span>
+          <nav aria-label="Footer">
+            <Link to="/about">About</Link>
+            <Link to="/terms">Terms</Link>
+            <Link to="/privacy">Privacy</Link>
+            <Link to="/contact">Contact</Link>
+          </nav>
+        </div>
+      </footer>
+    </>
+  );
+}
+
+export function Layout() {
+  return (
+    <AuthProvider>
+      <LayoutShell />
+    </AuthProvider>
+  );
+}

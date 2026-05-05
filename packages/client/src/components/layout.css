@@ -1,0 +1,104 @@
+.site-header {
+  background-color: var(--brand);
+  color: var(--text-on-navy);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: var(--shadow-sm);
+}
+
+.site-header__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+  min-height: 64px;
+}
+
+.brand {
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  font-size: 1.5rem;
+  color: var(--text-on-navy);
+  text-decoration: none;
+}
+
+.nav-list {
+  list-style: none;
+  display: flex;
+  gap: var(--space-5);
+  margin: 0;
+  padding: 0;
+}
+
+.nav-link {
+  color: var(--text-on-navy);
+  text-decoration: none;
+  font-weight: var(--fw-medium);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  transition: color var(--duration-fast) var(--easing-default);
+}
+
+.nav-link:hover {
+  color: var(--accent);
+}
+
+.nav-link--active {
+  color: var(--accent);
+}
+
+.nav-link--cta {
+  background-color: var(--accent);
+  color: var(--text-on-amber);
+  font-weight: var(--fw-semibold);
+}
+
+.nav-link--cta:hover {
+  background-color: var(--accent);
+  color: var(--text-on-amber);
+  filter: brightness(1.05);
+}
+
+/* When the nav-link is rendered as a <button> (Sign Out). */
+.nav-link--button {
+  background: transparent;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+.nav-link--button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.site-main {
+  padding-block: var(--space-7);
+  min-height: calc(100vh - 64px - 80px);
+}
+
+.site-footer {
+  background-color: var(--bg-surface);
+  border-top: 1px solid var(--border-default);
+  padding-block: var(--space-5);
+}
+
+.site-footer__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  flex-wrap: wrap;
+}
+
+.site-footer nav {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.site-footer a {
+  color: var(--text-secondary);
+}

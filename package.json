@@ -1,0 +1,59 @@
+{
+  "name": "stageone",
+  "version": "0.1.0",
+  "private": true,
+  "description": "StageOne — indie-musician discovery platform. WEB 268 capstone.",
+  "license": "MIT",
+  "author": "Eva Quinn Cihak <eqc34019@hawkmail.hacc.edu>",
+  "engines": {
+    "node": ">=22.0.0",
+    "npm": ">=10.0.0"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm-run-all --parallel dev:*",
+    "dev:server": "npm --workspace @stageone/server run dev",
+    "dev:client": "npm --workspace @stageone/client run dev",
+    "build": "npm-run-all --parallel build:*",
+    "build:server": "npm --workspace @stageone/server run build",
+    "build:client": "npm --workspace @stageone/client run build",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "npm-run-all --parallel typecheck:*",
+    "typecheck:server": "npm --workspace @stageone/server run typecheck",
+    "typecheck:client": "npm --workspace @stageone/client run typecheck",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.5.0",
+    "@commitlint/config-conventional": "^19.5.0",
+    "@eslint/js": "^9.13.0",
+    "@types/node": "^22.7.7",
+    "eslint": "^9.13.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.31.0",
+    "globals": "^15.11.0",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^3.3.3",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.11.0"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,css,html,yml,yaml}": [
+      "prettier --write"
+    ]
+  },
+  "dependencies": {
+    "mongodb": "^7.2.0"
+  }
+}

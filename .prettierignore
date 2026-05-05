@@ -1,0 +1,9 @@
+node_modules/
+dist/
+build/
+out/
+coverage/
+.vite/
+.husky/_/
+*.md
+package-lock.json

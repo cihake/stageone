@@ -1,0 +1,246 @@
+/* ── /gigs list page ─────────────────────────────────────────────────── */
+
+.gigs-page__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: flex-end;
+  margin-bottom: var(--space-6);
+}
+
+.gigs-page__toolbar .field {
+  margin-bottom: 0;
+  min-width: 160px;
+}
+
+.gigs-page__toolbar label {
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-1);
+}
+
+.gigs-page__toolbar select {
+  height: 40px;
+  padding-inline: var(--space-3);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  font: inherit;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.gigs-page__toolbar select:focus-visible {
+  border-color: var(--brand);
+  box-shadow: var(--focus-ring);
+  outline: none;
+}
+
+/* ── Gig list ────────────────────────────────────────────────────────── */
+
+.gig-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* ── Gig card ────────────────────────────────────────────────────────── */
+
+.gig-card {
+  display: grid;
+  grid-template-columns: 72px 1fr auto;
+  align-items: start;
+  gap: var(--space-4);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow var(--duration-default) var(--easing-default),
+    border-color var(--duration-default);
+}
+
+.gig-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--brand);
+  color: inherit;
+}
+
+/* Date badge */
+.gig-card__date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--brand);
+  color: var(--text-on-navy);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+  min-width: 60px;
+  text-align: center;
+}
+
+.gig-card__date-month {
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.gig-card__date-day {
+  font-family: var(--font-display);
+  font-size: var(--fs-h2);
+  font-weight: var(--fw-bold);
+  line-height: 1;
+}
+
+.gig-card__date-year {
+  font-size: var(--fs-caption);
+  opacity: 0.75;
+}
+
+/* Info */
+.gig-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.gig-card__title {
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  font-weight: var(--fw-semibold);
+  color: var(--brand);
+  margin: 0;
+}
+
+.gig-card__artist {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.gig-card__artist a {
+  color: var(--brand);
+  font-weight: var(--fw-medium);
+}
+
+.gig-card__venue {
+  font-size: 0.875rem;
+  color: var(--text-primary);
+}
+
+.gig-card__location {
+  font-size: var(--fs-caption);
+  color: var(--text-secondary);
+}
+
+.gig-card__status {
+  display: inline-block;
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-medium);
+  padding: 2px var(--space-2);
+  border-radius: 999px;
+}
+
+.gig-card__status--cancelled {
+  background: rgb(185 28 28 / 0.1);
+  color: var(--color-danger);
+}
+
+.gig-card__status--postponed {
+  background: rgb(232 163 61 / 0.15);
+  color: #92600a;
+}
+
+/* Right column: price + ticket */
+.gig-card__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-2);
+  white-space: nowrap;
+}
+
+.gig-card__price {
+  font-size: var(--fs-caption);
+  color: var(--text-secondary);
+}
+
+.btn-ticket {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  background: var(--accent);
+  color: var(--text-on-amber);
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-4);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: var(--fw-semibold);
+  text-decoration: none;
+  min-height: 36px;
+  cursor: pointer;
+  transition: filter var(--duration-fast);
+}
+
+.btn-ticket:hover {
+  filter: brightness(1.06);
+  color: var(--text-on-amber);
+}
+
+/* ── Pagination + states ─────────────────────────────────────────────── */
+
+.gigs-page__pagination {
+  margin-top: var(--space-7);
+  display: flex;
+  justify-content: center;
+}
+
+.gigs-page__pagination button {
+  background: var(--brand);
+  color: var(--text-on-navy);
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: var(--space-3) var(--space-6);
+  font: inherit;
+  font-weight: var(--fw-semibold);
+  cursor: pointer;
+  min-height: 44px;
+  transition: filter var(--duration-fast);
+}
+
+.gigs-page__pagination button:hover:not(:disabled) {
+  filter: brightness(1.1);
+}
+
+.gigs-page__pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.gigs-page__empty {
+  text-align: center;
+  padding: var(--space-8) var(--space-4);
+  color: var(--text-secondary);
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────── */
+
+@media (max-width: 600px) {
+  .gig-card {
+    grid-template-columns: 60px 1fr;
+  }
+
+  .gig-card__actions {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    align-items: center;
+  }
+}

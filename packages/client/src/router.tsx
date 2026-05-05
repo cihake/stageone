@@ -1,12 +1,19 @@
 /**
  * App router. Mirrors the provisional site map in spec §4 / Appendix A.
- * v0.3 adds the artist self-service dashboard at /account/artist.
+ *
+ * v0.3 additions:
+ *   /artists          public artist directory
+ *   /artists/:slug    public artist detail page (wireframe B.3)
+ *   /admin            admin console — approve pending artists (role=admin)
  */
 import { createBrowserRouter } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { AccountPage } from './pages/AccountPage';
+import { AdminPage } from './pages/AdminPage';
 import { ArtistDashboardPage } from './pages/ArtistDashboardPage';
+import { ArtistDetailPage } from './pages/ArtistDetailPage';
+import { ArtistsPage } from './pages/ArtistsPage';
 import { HealthPage } from './pages/HealthPage';
 import { HomePage } from './pages/HomePage';
 import { NotFoundPage } from './pages/NotFoundPage';
@@ -22,11 +29,15 @@ export const router = createBrowserRouter([
       { index: true, element: <HomePage /> },
       { path: 'health', element: <HealthPage /> },
 
-      // Public account routes
+      // ── Public artist directory ─────────────────────────────────
+      { path: 'artists', element: <ArtistsPage /> },
+      { path: 'artists/:slug', element: <ArtistDetailPage /> },
+
+      // ── Public account routes ───────────────────────────────────
       { path: 'account/sign-in', element: <SignInPage /> },
       { path: 'account/sign-up', element: <SignUpPage /> },
 
-      // Authenticated account routes
+      // ── Authenticated account routes ────────────────────────────
       {
         path: 'account',
         element: <ProtectedRoute />,
@@ -40,14 +51,17 @@ export const router = createBrowserRouter([
         ],
       },
 
-      // Placeholder branches per spec §4.1; wire up in later sessions:
-      //   { path: 'discover', element: <DiscoverPage /> },
-      //   { path: 'artists',  element: <ArtistsListPage /> },
-      //   { path: 'artists/:slug', element: <ArtistProfilePage /> },
-      //   { path: 'gigs',     element: <GigsPage /> },
-      //   { path: 'search',   element: <SearchPage /> },
+      // ── Admin console (role=admin required) ─────────────────────
+      {
+        path: 'admin',
+        element: <ProtectedRoute roles={['admin']} />,
+        children: [{ index: true, element: <AdminPage /> }],
+      },
 
-      { path: '*', element: <NotFoundPage /> },
+      // Placeholder branches per spec §4.1 (wire up in later sessions):
+      //   { path: 'discover', … }
+      //   { path: 'gigs', … }
+      //   { path: 'search', … }
     ],
   },
 ]);

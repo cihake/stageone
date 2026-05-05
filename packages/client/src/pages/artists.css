@@ -1,0 +1,185 @@
+/* ── /artists list page ─────────────────────────────────────────────── */
+
+.artists-page__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: flex-end;
+  margin-bottom: var(--space-6);
+}
+
+.artists-page__toolbar .field {
+  margin-bottom: 0;
+  min-width: 160px;
+}
+
+.artists-page__toolbar label {
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-1);
+}
+
+.artists-page__toolbar select {
+  height: 40px;
+  padding-inline: var(--space-3);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  font: inherit;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.artists-page__toolbar select:focus-visible {
+  border-color: var(--brand);
+  box-shadow: var(--focus-ring);
+  outline: none;
+}
+
+/* ── Grid ────────────────────────────────────────────────────────────── */
+
+.artist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--space-5);
+}
+
+/* ── Card ────────────────────────────────────────────────────────────── */
+
+.artist-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow var(--duration-default) var(--easing-default),
+    transform var(--duration-default) var(--easing-default);
+}
+
+.artist-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+  color: inherit;
+}
+
+.artist-card__photo {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  background: var(--color-light);
+  display: block;
+}
+
+.artist-card__photo-placeholder {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: linear-gradient(135deg, var(--color-navy) 0%, #2d5a9e 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-weight: var(--fw-bold);
+  color: var(--color-white);
+  letter-spacing: -0.02em;
+}
+
+.artist-card__body {
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  flex: 1;
+}
+
+.artist-card__name {
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  font-weight: var(--fw-semibold);
+  color: var(--brand);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.artist-card__location {
+  font-size: var(--fs-caption);
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.artist-card__genres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin-top: auto;
+  padding-top: var(--space-2);
+}
+
+/* ── Pagination ──────────────────────────────────────────────────────── */
+
+.artists-page__pagination {
+  margin-top: var(--space-7);
+  display: flex;
+  justify-content: center;
+}
+
+.artists-page__pagination button {
+  background: var(--brand);
+  color: var(--text-on-navy);
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: var(--space-3) var(--space-6);
+  font: inherit;
+  font-weight: var(--fw-semibold);
+  cursor: pointer;
+  min-height: 44px;
+  transition: filter var(--duration-fast) var(--easing-default);
+}
+
+.artists-page__pagination button:hover:not(:disabled) {
+  filter: brightness(1.1);
+}
+
+.artists-page__pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Genre chip (shared with detail page) ────────────────────────────── */
+
+.genre-chip {
+  display: inline-block;
+  background: rgb(31 58 95 / 0.08);
+  color: var(--brand);
+  border: 1px solid rgb(31 58 95 / 0.18);
+  border-radius: 999px;
+  padding: 2px var(--space-3);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-medium);
+  white-space: nowrap;
+}
+
+/* ── Empty / loading states ──────────────────────────────────────────── */
+
+.artists-page__empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: var(--space-8) var(--space-4);
+  color: var(--text-secondary);
+}
+
+.artists-page__loading {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: var(--space-8) var(--space-4);
+  color: var(--text-secondary);
+}

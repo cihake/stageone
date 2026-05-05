@@ -102,7 +102,7 @@ async function main(): Promise<void> {
   console.log('[seed] Creating artists…');
   const artistSeeds: ArtistSeed[] = [
     {
-      userId: artistUsers[0]._id,
+      userId: artistUsers[0]!._id,
       displayName: 'Wren Hollow',
       avatarUrl: null,
       coverImageUrl: null,
@@ -116,7 +116,7 @@ async function main(): Promise<void> {
       isFeatured: true,
     },
     {
-      userId: artistUsers[1]._id,
+      userId: artistUsers[1]!._id,
       displayName: 'Callbox',
       avatarUrl: null,
       coverImageUrl: null,
@@ -130,7 +130,7 @@ async function main(): Promise<void> {
       isFeatured: true,
     },
     {
-      userId: artistUsers[2]._id,
+      userId: artistUsers[2]!._id,
       displayName: 'Ada Marin',
       avatarUrl: null,
       coverImageUrl: null,
@@ -144,7 +144,7 @@ async function main(): Promise<void> {
       isFeatured: false,
     },
     {
-      userId: artistUsers[3]._id,
+      userId: artistUsers[3]!._id,
       displayName: 'Highway Bell',
       avatarUrl: null,
       coverImageUrl: null,
@@ -158,7 +158,7 @@ async function main(): Promise<void> {
       isFeatured: false,
     },
     {
-      userId: artistUsers[4]._id,
+      userId: artistUsers[4]!._id,
       displayName: 'Siv & The Margins',
       avatarUrl: null,
       coverImageUrl: null,
@@ -259,7 +259,7 @@ async function main(): Promise<void> {
   await Promise.all(
     trackSeeds.map((t, i) =>
       Track.create({
-        artistId: artists[t.artistIdx]._id,
+        artistId: artists[t.artistIdx]!._id,
         title: t.title,
         album: t.album,
         durationSeconds: t.durationSeconds,
@@ -350,7 +350,7 @@ async function main(): Promise<void> {
   await Promise.all(
     gigSeeds.map((g) =>
       Gig.create({
-        artistId: artists[g.artistIdx]._id,
+        artistId: artists[g.artistIdx]!._id,
         title: g.title,
         venueName: g.venueName,
         venueAddress: '',
@@ -381,8 +381,8 @@ async function main(): Promise<void> {
   await Promise.all(
     followPairs.map(([fanIdx, artistIdx]) =>
       Follow.create({
-        userId: fanUsers[fanIdx]._id,
-        artistId: artists[artistIdx]._id,
+        userId: fanUsers[fanIdx]!._id,
+        artistId: artists[artistIdx]!._id,
       }),
     ),
   );

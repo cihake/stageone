@@ -13,30 +13,30 @@
 import { z } from 'zod';
 
 const passwordSchema = z
-  .string()
-  .min(10, 'Password must be at least 10 characters')
-  .max(128, 'Password must be at most 128 characters')
-  .regex(/[a-z]/, 'Password must contain a lowercase letter')
-  .regex(/[A-Z]/, 'Password must contain an uppercase letter')
-  .regex(/\d/, 'Password must contain a digit')
-  .refine((v) => !/\s/.test(v), 'Password must not contain whitespace');
+	.string()
+	.min(10, 'Password must be at least 10 characters')
+	.max(128, 'Password must be at most 128 characters')
+	.regex(/[a-z]/, 'Password must contain a lowercase letter')
+	.regex(/[A-Z]/, 'Password must contain an uppercase letter')
+	.regex(/\d/, 'Password must contain a digit')
+	.refine((v) => !/\s/.test(v), 'Password must not contain whitespace');
 
 export const registerSchema = z.object({
-  email: z.string().trim().toLowerCase().email('Invalid email address'),
-  password: passwordSchema,
-  displayName: z
-    .string()
-    .trim()
-    .min(1, 'Display name is required')
-    .max(60, 'Display name must be at most 60 characters'),
-  role: z.enum(['fan', 'artist'], {
-    errorMap: () => ({ message: 'Role must be fan or artist' }),
-  }),
+	email: z.string().trim().toLowerCase().email('Invalid email address'),
+	password: passwordSchema,
+	displayName: z
+		.string()
+		.trim()
+		.min(1, 'Display name is required')
+		.max(60, 'Display name must be at most 60 characters'),
+	role: z.enum(['fan', 'artist'], {
+		errorMap: () => ({ message: 'Role must be fan or artist' }),
+	}),
 });
 export type RegisterInput = z.infer<typeof registerSchema>;
 
 export const loginSchema = z.object({
-  email: z.string().trim().toLowerCase().email('Invalid email address'),
-  password: z.string().min(1, 'Password is required'),
+	email: z.string().trim().toLowerCase().email('Invalid email address'),
+	password: z.string().min(1, 'Password is required'),
 });
 export type LoginInput = z.infer<typeof loginSchema>;

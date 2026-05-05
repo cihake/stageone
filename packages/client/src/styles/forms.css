@@ -41,7 +41,8 @@
   border: 1px solid var(--border-default);
   border-radius: var(--radius-sm);
   padding: var(--space-3);
-  min-height: 44px; /* spec §6.1 touch-target minimum */
+  min-height: 44px;
+  /* spec §6.1 touch-target minimum */
   transition: border-color var(--duration-fast) var(--easing-default);
 }
 
@@ -61,7 +62,8 @@
 .field .error {
   font-size: var(--fs-caption);
   color: var(--color-danger);
-  min-height: 1em; /* avoid layout shift when error appears */
+  min-height: 1em;
+  /* avoid layout shift when error appears */
 }
 
 .radio-group {

@@ -118,3 +118,19 @@ export function apiPost<T>(
     body: body === undefined ? undefined : JSON.stringify(body),
   });
 }
+
+export function apiPatch<T>(
+  path: string,
+  body?: unknown,
+  init: ApiFetchOptions = {},
+): Promise<T> {
+  return apiFetch<T>(path, {
+    ...init,
+    method: 'PATCH',
+    body: body === undefined ? undefined : JSON.stringify(body),
+  });
+}
+
+export function apiDelete<T>(path: string, init: ApiFetchOptions = {}): Promise<T> {
+  return apiFetch<T>(path, { ...init, method: 'DELETE' });
+}

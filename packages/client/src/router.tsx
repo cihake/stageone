@@ -1,12 +1,12 @@
 /**
  * App router. Mirrors the provisional site map in spec §4 / Appendix A.
- * v0.2 wires up the public Account routes (sign-in / sign-up) and the
- * protected /account branch. Phase 3 fills in Discover, Artists, Gigs.
+ * v0.3 adds the artist self-service dashboard at /account/artist.
  */
 import { createBrowserRouter } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { AccountPage } from './pages/AccountPage';
+import { ArtistDashboardPage } from './pages/ArtistDashboardPage';
 import { HealthPage } from './pages/HealthPage';
 import { HomePage } from './pages/HomePage';
 import { NotFoundPage } from './pages/NotFoundPage';
@@ -30,12 +30,20 @@ export const router = createBrowserRouter([
       {
         path: 'account',
         element: <ProtectedRoute />,
-        children: [{ index: true, element: <AccountPage /> }],
+        children: [
+          { index: true, element: <AccountPage /> },
+          {
+            path: 'artist',
+            element: <ProtectedRoute roles={['artist']} />,
+            children: [{ index: true, element: <ArtistDashboardPage /> }],
+          },
+        ],
       },
 
-      // Placeholder branches per spec §4.1; wire up in Phase 3:
+      // Placeholder branches per spec §4.1; wire up in later sessions:
       //   { path: 'discover', element: <DiscoverPage /> },
-      //   { path: 'artists',  element: <ArtistsPage /> },
+      //   { path: 'artists',  element: <ArtistsListPage /> },
+      //   { path: 'artists/:slug', element: <ArtistProfilePage /> },
       //   { path: 'gigs',     element: <GigsPage /> },
       //   { path: 'search',   element: <SearchPage /> },
 

@@ -1,0 +1,179 @@
+/* Layout for /account/artist editor. */
+
+.artist-dashboard {
+  max-width: 760px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.artist-dashboard__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.artist-dashboard__header h1 {
+  margin: 0 0 var(--space-1);
+}
+
+.artist-dashboard__panel {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+}
+
+.artist-dashboard__panel h2 {
+  margin-top: 0;
+}
+
+.artist-dashboard__uploaders {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: var(--space-5);
+}
+
+@media (max-width: 640px) {
+  .artist-dashboard__uploaders {
+    grid-template-columns: 1fr;
+  }
+}
+
+.artist-dashboard__footer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+}
+
+/* Wider form for the dashboard than the auth pages. */
+.artist-form {
+  max-width: 760px;
+}
+
+.artist-form__row {
+  display: flex;
+  gap: var(--space-4);
+}
+
+@media (max-width: 480px) {
+  .artist-form__row {
+    flex-direction: column;
+  }
+}
+
+.artist-form__details {
+  margin-top: var(--space-4);
+  padding: var(--space-4);
+  background: var(--bg-page);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+}
+
+.artist-form__details summary {
+  font-weight: var(--fw-semibold);
+  cursor: pointer;
+  margin-bottom: var(--space-3);
+}
+
+/* ─── ImageUploader ──────────────────────────────────────── */
+
+.image-uploader {
+  display: flex;
+  flex-direction: column;
+}
+
+.image-uploader__preview {
+  position: relative;
+  background: var(--bg-page);
+  border: 1px dashed var(--border-default);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  font-size: var(--fs-caption);
+}
+
+.image-uploader__preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-uploader__preview--square {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+}
+
+.image-uploader__preview--wide {
+  width: 100%;
+  aspect-ratio: 16 / 6;
+}
+
+.image-uploader__placeholder {
+  padding: var(--space-3);
+}
+
+.image-uploader__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(31 58 95 / 0.5);
+  color: var(--text-on-navy);
+  font-weight: var(--fw-semibold);
+}
+
+/* ─── GenreTagsInput ─────────────────────────────────────── */
+
+.genre-tags__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  min-height: 44px;
+}
+
+.genre-tags__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  background: var(--brand);
+  color: var(--text-on-navy);
+  padding: var(--space-1) var(--space-3);
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: var(--fw-medium);
+}
+
+.genre-tags__remove {
+  background: transparent;
+  border: none;
+  color: var(--text-on-navy);
+  cursor: pointer;
+  font-size: 1.125rem;
+  line-height: 1;
+  padding: 0;
+}
+
+.genre-tags__input {
+  flex: 1;
+  min-width: 120px;
+  border: none !important;
+  background: transparent !important;
+  min-height: 0 !important;
+  padding: 0 var(--space-1) !important;
+  box-shadow: none !important;
+}

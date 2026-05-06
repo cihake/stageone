@@ -1,6 +1,6 @@
 /**
- * Home page placeholder for v0.1. Real layout (hero + featured artists + new
- * tracks strip + nearby gigs) lands in Phase 3 per spec wireframe B.1.
+ * Home page — updated for v0.3 (Content & discovery).
+ * Wireframe B.1 hero with featured artists + gig strip ships in v1.0-rc.
  */
 import { Link } from 'react-router-dom';
 
@@ -13,9 +13,9 @@ export function HomePage() {
         stream their tracks, and find shows near you.
       </p>
 
-      <div style={{ display: 'flex', gap: 'var(--space-3)', marginTop: 'var(--space-5)' }}>
+      <div style={{ display: 'flex', gap: 'var(--space-3)', marginTop: 'var(--space-5)', flexWrap: 'wrap' }}>
         <Link
-          to="/discover"
+          to="/artists"
           style={{
             background: 'var(--accent)',
             color: 'var(--text-on-amber)',
@@ -25,10 +25,10 @@ export function HomePage() {
             fontWeight: 600,
           }}
         >
-          Explore
+          Browse artists
         </Link>
         <Link
-          to="/health"
+          to="/gigs"
           style={{
             background: 'transparent',
             color: 'var(--brand)',
@@ -39,17 +39,21 @@ export function HomePage() {
             fontWeight: 600,
           }}
         >
-          Smoke test (v0.1)
+          Upcoming gigs
         </Link>
       </div>
 
       <section style={{ marginTop: 'var(--space-8)' }}>
-        <h2>v0.1 Skeleton release</h2>
+        <h2>v0.3 — Content &amp; discovery</h2>
         <p>
-          You&apos;re looking at the foundation build. Visit <Link to="/health">/health</Link>{' '}
-          to confirm the React app, the Express API, and MongoDB Atlas are all talking to each
-          other. Featured artists, the AI assistant, and the rest of the feature set ship in
-          later phases (see <code>StageOne_release_plan.pdf</code>).
+          Artists can publish tracks and gigs. Fans can follow artists and get a personalised
+          feed of new music and upcoming shows at <Link to="/account">/account</Link>. The
+          artist directory is live at <Link to="/artists">/artists</Link> and the gig calendar
+          at <Link to="/gigs">/gigs</Link>.
+        </p>
+        <p style={{ marginTop: 'var(--space-3)', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+          Coming in v1.0-rc: AI discovery assistant, accessibility audit, seed data, and
+          production launch.
         </p>
       </section>
     </article>

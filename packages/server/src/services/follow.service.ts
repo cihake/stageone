@@ -53,11 +53,16 @@ export async function unfollowArtist(
   if (result.deletedCount === 0) {
     throw new HttpError(404, 'You are not following this artist');
   }
-  await Artist.findByIdAndUpdate(artistId, {
-    $inc: { followerCount: -1 },
-    // Floor at 0 to guard against count drift.
-    $max: { followerCount: 0 },
-  });
+  // Use an aggregation-pipeline update to decrement with a floor of 0.
+  // A plain { $inc: ..., $max: ... } on the same field is a MongoDB path
+  // conflict that throws a server error.
+  await Artist.findByIdAndUpdate(artistId, [
+    {
+      $set: {
+        followerCount: { $max: [0, { $subtract: ['$followerCount', 1] }] },
+      },
+    },
+  ]);
 }
 
 export async function getFollowedArtistIds(userId: string): Promise<string[]> {

@@ -128,7 +128,7 @@ export async function getFanFeed(
       .sort({ startsAt: 1 })
       .limit(limit)
       .lean(),
-    Artist.find({ _id: { $in: ids } })
+    Artist.find({ _id: { $in: ids }, isApproved: true })
       .select('slug displayName')
       .lean(),
   ]);

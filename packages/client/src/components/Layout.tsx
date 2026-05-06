@@ -1,19 +1,20 @@
 /**
  * App-shell layout: header, main outlet, footer. Matches the wireframes in
- * spec Appendix B (the navy header bar with five primary links + Sign In).
+ * spec Appendix B (the navy header bar with primary links + Sign In).
  *
- * The Sign-In CTA in the top right swaps to a user menu (display name +
- * Sign Out button) once the user is authenticated.
+ * Nav notes:
+ *   - Discover removed: /artists already covers the discovery use-case.
+ *   - Search disabled with a "coming soon" tooltip; reserved for the AI
+ *     discovery assistant in v1.0-rc.
  */
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from '../context/AuthContext';
 import './layout.css';
 
+/** Active nav items — Discover removed, Search is a disabled stub below. */
 const NAV_ITEMS = [
-  { to: '/discover', label: 'Discover' },
   { to: '/artists', label: 'Artists' },
   { to: '/gigs', label: 'Gigs' },
-  { to: '/search', label: 'Search' },
 ] as const;
 
 function HeaderAuthSlot() {
@@ -92,6 +93,19 @@ function LayoutShell() {
                   </NavLink>
                 </li>
               ))}
+
+              {/* Search — disabled until AI assistant ships in v1.0-rc */}
+              <li>
+                <span
+                  className="nav-link nav-link--disabled"
+                  aria-disabled="true"
+                  title="Search is coming soon"
+                >
+                  Search
+                  <span className="nav-link__badge" aria-hidden="true">Soon</span>
+                </span>
+              </li>
+
               <HeaderAuthSlot />
             </ul>
           </nav>
@@ -104,7 +118,7 @@ function LayoutShell() {
 
       <footer className="site-footer">
         <div className="container site-footer__row">
-          <span>© 2026 StageOne — WEB 268 capstone.</span>
+          <span>&copy; 2026 StageOne &mdash; WEB 268 capstone.</span>
           <nav aria-label="Footer">
             <Link to="/about">About</Link>
             <Link to="/terms">Terms</Link>

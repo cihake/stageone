@@ -102,3 +102,51 @@
 .site-footer a {
   color: var(--text-secondary);
 }
+
+/* Disabled nav link — used for features not yet shipped (e.g. Search). */
+.nav-link--disabled {
+  color: var(--text-on-navy);
+  opacity: 0.45;
+  cursor: default;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-weight: var(--fw-medium);
+  user-select: none;
+}
+
+.nav-link--disabled:hover {
+  color: var(--text-on-navy);
+}
+
+/** Small pill badge shown next to the disabled label. */
+.nav-link__badge {
+  font-size: 0.625rem;
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: rgb(255 255 255 / 0.18);
+  color: var(--text-on-navy);
+  border-radius: 999px;
+  padding: 1px 6px;
+  line-height: 1.6;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: var(--space-2);
+  background: var(--accent);
+  color: var(--text-on-amber);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-sm);
+  font-weight: var(--fw-semibold);
+  z-index: 100;
+}
+
+.skip-link:focus {
+  left: var(--space-4);
+}

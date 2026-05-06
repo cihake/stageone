@@ -3,6 +3,9 @@
  *
  * listGigs populates a minimal artist snapshot (slug + displayName) so
  * the public Gigs page can render artist links without a second round-trip.
+ *
+ * Only gigs from *approved* artists are surfaced publicly. The artist
+ * batch-fetch also filters by isApproved so a broken link can never appear.
  */
 import { Types } from 'mongoose';
 import { Artist, Gig } from '../models/index.js';
@@ -16,9 +19,9 @@ function escapeRegex(s: string): string {
 
 async function resolveArtist(slug: string, userId?: string) {
   const artist = await Artist.findOne({ slug: slug.toLowerCase() });
-  if (!artist) throw new HttpError(404, 'Artist not found');
+  if (!artist) throw new HttpError(404, "Artist not found");
   if (userId && String(artist.userId) !== userId) {
-    throw new HttpError(403, 'You do not own this artist profile');
+    throw new HttpError(403, "You do not own this artist profile");
   }
   return artist;
 }
@@ -30,9 +33,17 @@ export interface GigWithArtist extends IGig {
 export async function listGigs(
   query: ListGigsQuery,
 ): Promise<{ items: GigWithArtist[]; nextCursor: string | null }> {
+  // ── Always restrict to approved artists so no broken links surface ──
+  // Fetch approved artist IDs upfront; merge with any genre filter.
+  const approvedFilter: Record<string, unknown> = { isApproved: true };
+  if (query.genre) approvedFilter.genreTags = query.genre;
+  const approvedArtists = await Artist.find(approvedFilter).select("_id").lean();
+  const approvedIds = approvedArtists.map((a) => a._id);
+
   const filter: Record<string, unknown> = {
     isPublished: true,
-    status: 'scheduled',
+    status: "scheduled",
+    artistId: { $in: approvedIds },
   };
 
   if (query.upcoming) {
@@ -40,22 +51,13 @@ export async function listGigs(
   }
 
   if (query.city) {
-    filter.city = new RegExp(`^${escapeRegex(query.city)}$`, 'i');
+    filter.city = new RegExp(`^${escapeRegex(query.city)}$`, "i");
   }
 
   if (query.cursor) {
     const cursorDate = new Date(query.cursor);
     const existingStartsAt = filter.startsAt as Record<string, unknown> | undefined;
     filter.startsAt = { ...(existingStartsAt ?? {}), $gt: cursorDate };
-  }
-
-  // Genre filter — two-step: find matching artists, then filter gigs.
-  if (query.genre) {
-    const matchingArtists = await Artist.find({
-      genreTags: query.genre,
-      isApproved: true,
-    }).select('_id');
-    filter.artistId = { $in: matchingArtists.map((a) => a._id) };
   }
 
   const rawGigs = await Gig.find(filter)
@@ -66,10 +68,11 @@ export async function listGigs(
   const hasMore = rawGigs.length > query.limit;
   const trimmed = hasMore ? rawGigs.slice(0, query.limit) : rawGigs;
 
-  // Batch-fetch artist snapshots for the page.
+  // Batch-fetch artist snapshots — isApproved guard is redundant here but
+  // kept for defence-in-depth so artist: null can never link to a 404 page.
   const artistIds = [...new Set(trimmed.map((g) => String(g.artistId)))];
-  const artistDocs = await Artist.find({ _id: { $in: artistIds } })
-    .select('slug displayName')
+  const artistDocs = await Artist.find({ _id: { $in: artistIds }, isApproved: true })
+    .select("slug displayName")
     .lean();
   const artistMap = new Map(artistDocs.map((a) => [String(a._id), a]));
 
@@ -91,7 +94,7 @@ export async function listArtistGigs(
   onlyUpcoming = true,
 ): Promise<IGig[]> {
   const artist = await Artist.findOne({ slug: slug.toLowerCase() });
-  if (!artist) throw new HttpError(404, 'Artist not found');
+  if (!artist) throw new HttpError(404, "Artist not found");
 
   const filter: Record<string, unknown> = {
     artistId: artist._id,
@@ -99,7 +102,7 @@ export async function listArtistGigs(
   };
   if (onlyUpcoming) {
     filter.startsAt = { $gte: new Date() };
-    filter.status = 'scheduled';
+    filter.status = "scheduled";
   }
 
   return Gig.find(filter).sort({ startsAt: 1 }).lean();
@@ -125,7 +128,7 @@ export async function updateGig(
     _id: new Types.ObjectId(gigId),
     artistId: artist._id,
   });
-  if (!gig) throw new HttpError(404, 'Gig not found');
+  if (!gig) throw new HttpError(404, "Gig not found");
   Object.assign(gig, patch);
   await gig.save();
   return gig;
@@ -141,5 +144,5 @@ export async function deleteGig(
     _id: new Types.ObjectId(gigId),
     artistId: artist._id,
   });
-  if (result.deletedCount === 0) throw new HttpError(404, 'Gig not found');
+  if (result.deletedCount === 0) throw new HttpError(404, "Gig not found");
 }

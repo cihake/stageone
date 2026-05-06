@@ -11,7 +11,7 @@ import './account.css';
 interface FeedTrack {
   _id: string;
   title: string;
-  durationSecs?: number;
+  durationSeconds?: number;
   audioUrl?: string;
   releasedAt?: string;
   artist: { slug: string; displayName: string } | null;
@@ -60,8 +60,8 @@ function TrackRow({ track }: { track: FeedTrack }) {
         )}
       </div>
       <div className="feed-row__meta">
-        {track.durationSecs ? (
-          <span className="feed-row__duration">{fmtDuration(track.durationSecs)}</span>
+        {track.durationSeconds ? (
+          <span className="feed-row__duration">{fmtDuration(track.durationSeconds)}</span>
         ) : null}
         {track.releasedAt && (
           <span className="feed-row__date">{fmtDate(track.releasedAt)}</span>

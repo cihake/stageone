@@ -1,11 +1,8 @@
 /**
- * App router. Mirrors the provisional site map in spec section 4 / Appendix A.
+ * App router — v0.3.
  *
- * v0.3 additions:
- *   /artists          public artist directory
- *   /artists/:slug    public artist detail page (wireframe B.3)
- *   /gigs             public gig calendar with city + genre filters
- *   /admin            admin console -- approve pending artists (role=admin)
+ * /discover removed (duplicates /artists).
+ * /search reserved for v1.0-rc AI assistant; nav link is a disabled stub.
  */
 import { createBrowserRouter } from 'react-router-dom';
 import { Layout } from './components/Layout';
@@ -58,9 +55,7 @@ export const router = createBrowserRouter([
         children: [{ index: true, element: <AdminPage /> }],
       },
 
-      // Placeholder branches per spec section 4.1 (wire up in later sessions):
-      //   { path: 'discover', ... }
-      //   { path: 'search', ... }
+      // /search wired up in v1.0-rc with AI discovery assistant.
     ],
   },
 ]);

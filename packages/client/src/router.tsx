@@ -2,7 +2,7 @@
  * App router — v0.3.
  *
  * /discover removed (duplicates /artists).
- * /search reserved for v1.0-rc AI assistant; nav link is a disabled stub.
+ * /search live with keyword search; AI tab is a stub for v1.0-rc.
  */
 import { createBrowserRouter } from 'react-router-dom';
 import { Layout } from './components/Layout';
@@ -16,6 +16,7 @@ import { GigsPage } from './pages/GigsPage';
 import { HealthPage } from './pages/HealthPage';
 import { HomePage } from './pages/HomePage';
 import { NotFoundPage } from './pages/NotFoundPage';
+import { SearchPage } from './pages/SearchPage';
 import { SignInPage } from './pages/SignInPage';
 import { SignUpPage } from './pages/SignUpPage';
 
@@ -32,6 +33,8 @@ export const router = createBrowserRouter([
       { path: 'artists/:slug', element: <ArtistDetailPage /> },
 
       { path: 'gigs', element: <GigsPage /> },
+
+      { path: 'search', element: <SearchPage /> },
 
       { path: 'account/sign-in', element: <SignInPage /> },
       { path: 'account/sign-up', element: <SignUpPage /> },
@@ -54,8 +57,6 @@ export const router = createBrowserRouter([
         element: <ProtectedRoute roles={['admin']} />,
         children: [{ index: true, element: <AdminPage /> }],
       },
-
-      // /search wired up in v1.0-rc with AI discovery assistant.
     ],
   },
 ]);

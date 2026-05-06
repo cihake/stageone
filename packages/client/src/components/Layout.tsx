@@ -4,17 +4,17 @@
  *
  * Nav notes:
  *   - Discover removed: /artists already covers the discovery use-case.
- *   - Search disabled with a "coming soon" tooltip; reserved for the AI
- *     discovery assistant in v1.0-rc.
+ *   - Search live with keyword search; AI tab stub inside the page for v1.0-rc.
  */
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from '../context/AuthContext';
 import './layout.css';
 
-/** Active nav items — Discover removed, Search is a disabled stub below. */
+/** Primary nav items. */
 const NAV_ITEMS = [
   { to: '/artists', label: 'Artists' },
   { to: '/gigs', label: 'Gigs' },
+  { to: '/search', label: 'Search' },
 ] as const;
 
 function HeaderAuthSlot() {
@@ -94,17 +94,7 @@ function LayoutShell() {
                 </li>
               ))}
 
-              {/* Search — disabled until AI assistant ships in v1.0-rc */}
-              <li>
-                <span
-                  className="nav-link nav-link--disabled"
-                  aria-disabled="true"
-                  title="Search is coming soon"
-                >
-                  Search
-                  <span className="nav-link__badge" aria-hidden="true">Soon</span>
-                </span>
-              </li>
+
 
               <HeaderAuthSlot />
             </ul>

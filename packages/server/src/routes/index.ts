@@ -8,6 +8,7 @@ import { authRouter } from './auth.routes.js';
 import { followRouter } from './follow.routes.js';
 import { gigArtistRouter, gigPublicRouter } from './gig.routes.js';
 import { healthRouter } from './health.routes.js';
+import { searchRouter } from './search.routes.js';
 import { trackRouter } from './track.routes.js';
 
 export const apiRouter = Router();
@@ -19,4 +20,5 @@ apiRouter.use('/artists/:slug/tracks', trackRouter);
 apiRouter.use('/artists/:slug/gigs', gigArtistRouter);
 apiRouter.use('/gigs', gigPublicRouter);
 apiRouter.use('/follow', followRouter);
+apiRouter.use('/search', searchRouter);
 apiRouter.use('/admin', adminRouter);

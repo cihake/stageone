@@ -8,6 +8,8 @@
  */
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from '../context/AuthContext';
+import { PlayerProvider } from '../context/PlayerContext';
+import { AudioPlayer } from './AudioPlayer';
 import './layout.css';
 
 /** Primary nav items. */
@@ -94,8 +96,6 @@ function LayoutShell() {
                 </li>
               ))}
 
-
-
               <HeaderAuthSlot />
             </ul>
           </nav>
@@ -117,6 +117,8 @@ function LayoutShell() {
           </nav>
         </div>
       </footer>
+
+      <AudioPlayer />
     </>
   );
 }
@@ -124,7 +126,9 @@ function LayoutShell() {
 export function Layout() {
   return (
     <AuthProvider>
-      <LayoutShell />
+      <PlayerProvider>
+        <LayoutShell />
+      </PlayerProvider>
     </AuthProvider>
   );
 }

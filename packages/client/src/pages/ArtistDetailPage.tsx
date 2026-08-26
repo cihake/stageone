@@ -13,6 +13,7 @@ import { useCallback, useEffect, useState, type FormEvent } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ApiError, apiDelete, apiGet, apiPatch, apiPost } from '../lib/api';
 import { useAuth } from '../context/AuthContext';
+import { usePlayer } from '../context/PlayerContext';
 import { useArtist } from '../hooks/useArtist';
 import './artists.css';
 import './artist-detail.css';
@@ -303,7 +304,16 @@ function TrackForm({
 
 // ─── Track list section ───────────────────────────────────────────────
 
-function TrackListSection({ slug, isOwner }: { slug: string; isOwner: boolean }) {
+function TrackListSection({
+  slug,
+  isOwner,
+  artistName,
+}: {
+  slug: string;
+  isOwner: boolean;
+  artistName: string;
+}) {
+  const player = usePlayer();
   const [tracks, setTracks] = useState<Track[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -384,54 +394,82 @@ function TrackListSection({ slug, isOwner }: { slug: string; isOwner: boolean })
         </p>
       ) : (
         <div className="track-list" role="list">
-          {visible.map((track, idx) => (
-            <div key={track._id} className="track-row" role="listitem">
-              <span className="track-row__num">{idx + 1}</span>
-              <div className="track-row__info">
-                <span className="track-row__title">
-                  {track.title}
-                  {isOwner && !track.isPublished && (
-                    <span
-                      style={{
-                        marginLeft: 'var(--space-2)',
-                        fontSize: 'var(--fs-caption)',
-                        color: 'var(--text-secondary)',
-                      }}
-                    >
-                      (draft)
-                    </span>
+          {visible.map((track, idx) => {
+            const isCurrent = player.currentTrack?._id === track._id;
+            const isCurrentPlaying = isCurrent && player.isPlaying;
+            return (
+              <div
+                key={track._id}
+                className={`track-row${isCurrent ? ' track-row--playing' : ''}`}
+                role="listitem"
+              >
+                <button
+                  type="button"
+                  className="track-row__play"
+                  onClick={() =>
+                    player.play({
+                      _id: track._id,
+                      title: track.title,
+                      album: track.album,
+                      durationSeconds: track.durationSeconds,
+                      audioUrl: track.audioUrl,
+                      artistName,
+                      artistSlug: slug,
+                    })
+                  }
+                  aria-label={
+                    isCurrentPlaying ? `Pause ${track.title}` : `Play ${track.title}`
+                  }
+                  title={isCurrentPlaying ? 'Pause' : 'Play'}
+                >
+                  {isCurrentPlaying ? '❚❚' : idx + 1}
+                </button>
+                <div className="track-row__info">
+                  <span className="track-row__title">
+                    {track.title}
+                    {isOwner && !track.isPublished && (
+                      <span
+                        style={{
+                          marginLeft: 'var(--space-2)',
+                          fontSize: 'var(--fs-caption)',
+                          color: 'var(--text-secondary)',
+                        }}
+                      >
+                        (draft)
+                      </span>
+                    )}
+                  </span>
+                  {track.album && <span className="track-row__album">{track.album}</span>}
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
+                  <span className="track-row__duration">
+                    {formatDuration(track.durationSeconds)}
+                  </span>
+                  {isOwner && (
+                    <div className="track-row__actions">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setEditingTrack(track);
+                          setShowForm(false);
+                        }}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        type="button"
+                        className="danger"
+                        disabled={deletingId === track._id}
+                        onClick={() => void handleDelete(track._id)}
+                      >
+                        {deletingId === track._id ? '…' : 'Delete'}
+                      </button>
+                    </div>
                   )}
-                </span>
-                {track.album && <span className="track-row__album">{track.album}</span>}
+                </div>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
-                <span className="track-row__duration">
-                  {formatDuration(track.durationSeconds)}
-                </span>
-                {isOwner && (
-                  <div className="track-row__actions">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setEditingTrack(track);
-                        setShowForm(false);
-                      }}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      type="button"
-                      className="danger"
-                      disabled={deletingId === track._id}
-                      onClick={() => void handleDelete(track._id)}
-                    >
-                      {deletingId === track._id ? '…' : 'Delete'}
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
       {showForm && (
@@ -1084,7 +1122,9 @@ export function ArtistDetailPage() {
       )}
 
       {/* Tracks */}
-      {slug && <TrackListSection slug={slug} isOwner={isOwner} />}
+      {slug && (
+        <TrackListSection slug={slug} isOwner={isOwner} artistName={artist.displayName} />
+      )}
 
       {/* Gigs */}
       {slug && <GigListSection slug={slug} isOwner={isOwner} />}

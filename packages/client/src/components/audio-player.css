@@ -1,0 +1,214 @@
+/* Persistent bottom-bar audio player. */
+
+.audio-player {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--brand);
+  color: var(--text-on-navy);
+  border-top: 1px solid rgb(0 0 0 / 0.2);
+  box-shadow: 0 -4px 12px rgb(0 0 0 / 0.15);
+  z-index: 50;
+}
+
+.audio-player__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 2fr) auto;
+  gap: var(--space-4);
+  align-items: center;
+  min-height: 64px;
+  padding-block: var(--space-3);
+}
+
+@media (max-width: 640px) {
+  .audio-player__inner {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    gap: var(--space-3);
+  }
+  .audio-player__scrubber {
+    grid-column: 1 / -1;
+    order: 3;
+  }
+}
+
+.audio-player__track {
+  min-width: 0; /* enable text-overflow inside grid child */
+}
+
+.audio-player__title {
+  margin: 0;
+  font-weight: var(--fw-semibold);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.audio-player__artist {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: rgb(255 255 255 / 0.75);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.audio-player__artist a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.audio-player__artist a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.audio-player__playpause {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: var(--accent);
+  color: var(--text-on-amber);
+  font-size: 0.875rem;
+  font-weight: var(--fw-bold);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: filter var(--duration-fast) var(--easing-default);
+}
+
+.audio-player__playpause:hover {
+  filter: brightness(1.1);
+}
+
+.audio-player__scrubber {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.audio-player__time {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.8125rem;
+  color: rgb(255 255 255 / 0.75);
+  min-width: 3.5ch;
+  text-align: center;
+}
+
+.audio-player__range {
+  flex: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  height: 20px;
+  cursor: pointer;
+}
+
+.audio-player__range::-webkit-slider-runnable-track {
+  height: 4px;
+  background: rgb(255 255 255 / 0.3);
+  border-radius: 2px;
+}
+.audio-player__range::-moz-range-track {
+  height: 4px;
+  background: rgb(255 255 255 / 0.3);
+  border-radius: 2px;
+}
+
+.audio-player__range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  margin-top: -5px;
+  border: none;
+  cursor: pointer;
+}
+.audio-player__range::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: none;
+  cursor: pointer;
+}
+
+.audio-player__close {
+  background: transparent;
+  border: none;
+  color: rgb(255 255 255 / 0.75);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0 var(--space-2);
+  line-height: 1;
+}
+
+.audio-player__close:hover {
+  color: var(--text-on-navy);
+}
+
+.audio-player__error {
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-danger);
+  color: var(--text-on-navy);
+  font-size: 0.8125rem;
+  text-align: center;
+}
+
+/* Give the page bottom padding so the player doesn't hide content. */
+body:has(.audio-player) .site-main {
+  padding-bottom: calc(var(--space-7) + 80px);
+}
+
+/* ─── Play-button integration into the existing .track-row ────────── */
+
+/* Track-row was originally: [num] [info] [duration/actions].
+   Replace the flat number span with a real button that also serves as
+   the play/pause control. Sized to the same visual footprint as the
+   number so the layout doesn't shift. */
+.track-row__play {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: var(--fw-semibold);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition:
+    background var(--duration-fast) var(--easing-default),
+    color var(--duration-fast) var(--easing-default),
+    border-color var(--duration-fast) var(--easing-default);
+}
+
+.track-row:hover .track-row__play {
+  background: var(--accent);
+  color: var(--text-on-amber);
+  border-color: var(--accent);
+}
+
+.track-row--playing {
+  background: rgb(232 163 61 / 0.08); /* faint amber wash */
+  border-radius: var(--radius-sm);
+}
+
+.track-row--playing .track-row__play {
+  background: var(--accent);
+  color: var(--text-on-amber);
+  border-color: var(--accent);
+}
+
+.track-row--playing .track-row__title {
+  color: var(--brand);
+  font-weight: var(--fw-semibold);
+}

@@ -259,6 +259,9 @@ async function main(): Promise<void> {
     },
   ];
 
+  // SoundHelix provides 17 CC-licensed instrumental tracks free-to-use;
+  // handy for demoing an audio player without licensing headaches.
+  // Real artists would upload their own audio via the dashboard.
   await Promise.all(
     trackSeeds.map((t, i) =>
       Track.create({
@@ -267,7 +270,7 @@ async function main(): Promise<void> {
         album: t.album,
         durationSeconds: t.durationSeconds,
         genreTags: t.genreTags,
-        audioUrl: `https://placehold.co/audio/track-${i + 1}.mp3`,
+        audioUrl: `https://www.soundhelix.com/examples/mp3/SoundHelix-Song-${i + 1}.mp3`,
         coverArtUrl: `https://placehold.co/600x600/png?text=${encodeURIComponent(t.title)}`,
         description: '',
         isPublished: true,

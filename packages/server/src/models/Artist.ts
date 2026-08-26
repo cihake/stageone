@@ -134,6 +134,10 @@ const artistSchema = new Schema<IArtist, ArtistModel, IArtistMethods>(
       virtuals: true,
       transform: (_doc, ret: Record<string, unknown>) => {
         delete ret.__v;
+        // Guarantee callers always see socialLinks as an object.
+        // Mongoose drops empty sub-docs at save time, so the field may
+        // be missing on artists that were created with `socialLinks: {}`.
+        if (!ret.socialLinks) ret.socialLinks = {};
         return ret;
       },
     },

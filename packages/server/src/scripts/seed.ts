@@ -25,8 +25,11 @@ import {
 type ArtistSeed = Omit<IArtist, 'slug' | 'followerCount' | 'createdAt' | 'updatedAt'>;
 
 async function main(): Promise<void> {
-  if (env.NODE_ENV === 'production') {
-    throw new Error('Refusing to run seed against production database.');
+  if (env.NODE_ENV === 'production' && process.env.SEED_ALLOW_PROD !== 'true') {
+    throw new Error(
+      'Refusing to run seed against production database. ' +
+        'Set SEED_ALLOW_PROD=true to override (this WILL wipe all prod data first).',
+    );
   }
 
   await connectDB();

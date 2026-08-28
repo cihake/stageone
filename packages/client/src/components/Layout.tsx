@@ -12,12 +12,34 @@ import { PlayerProvider } from '../context/PlayerContext';
 import { AudioPlayer } from './AudioPlayer';
 import './layout.css';
 
-/** Primary nav items. */
+/** Primary nav items (always visible). */
 const NAV_ITEMS = [
   { to: '/artists', label: 'Artists' },
   { to: '/gigs', label: 'Gigs' },
   { to: '/search', label: 'Search' },
 ] as const;
+
+/** Nav items only shown when signed in. */
+const AUTHED_NAV_ITEMS = [{ to: '/feed', label: 'Feed' }] as const;
+
+function AuthedNavItems() {
+  const { isAuthenticated } = useAuth();
+  if (!isAuthenticated) return null;
+  return (
+    <>
+      {AUTHED_NAV_ITEMS.map((item) => (
+        <li key={item.to}>
+          <NavLink
+            to={item.to}
+            className={({ isActive }) => (isActive ? 'nav-link nav-link--active' : 'nav-link')}
+          >
+            {item.label}
+          </NavLink>
+        </li>
+      ))}
+    </>
+  );
+}
 
 function HeaderAuthSlot() {
   const { user, isAuthenticated, signOut, isSubmitting } = useAuth();
@@ -95,6 +117,8 @@ function LayoutShell() {
                   </NavLink>
                 </li>
               ))}
+
+              <AuthedNavItems />
 
               <HeaderAuthSlot />
             </ul>

@@ -12,6 +12,7 @@ import { AdminPage } from './pages/AdminPage';
 import { ArtistDashboardPage } from './pages/ArtistDashboardPage';
 import { ArtistDetailPage } from './pages/ArtistDetailPage';
 import { ArtistsPage } from './pages/ArtistsPage';
+import { FeedPage } from './pages/FeedPage';
 import { GigsPage } from './pages/GigsPage';
 import { HealthPage } from './pages/HealthPage';
 import { HomePage } from './pages/HomePage';
@@ -35,6 +36,12 @@ export const router = createBrowserRouter([
       { path: 'gigs', element: <GigsPage /> },
 
       { path: 'search', element: <SearchPage /> },
+
+      {
+        path: 'feed',
+        element: <ProtectedRoute />,
+        children: [{ index: true, element: <FeedPage /> }],
+      },
 
       { path: 'account/sign-in', element: <SignInPage /> },
       { path: 'account/sign-up', element: <SignUpPage /> },

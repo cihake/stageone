@@ -1,60 +1,61 @@
 /**
- * Home page — updated for v0.3 (Content & discovery).
- * Wireframe B.1 hero with featured artists + gig strip ships in v1.0-rc.
+ * Home page — landing. Hero + two primary CTAs + a "what you can do here"
+ * strip. Written for a portfolio-facing audience: someone who lands on
+ * mystageone.org should understand what StageOne is in ~5 seconds.
  */
 import { Link } from 'react-router-dom';
+import './home.css';
 
 export function HomePage() {
   return (
-    <article>
-      <h1>Hear what&apos;s next.</h1>
-      <p style={{ fontSize: '1.125rem', color: 'var(--text-secondary)', maxWidth: '60ch' }}>
-        StageOne spotlights indie artists you haven&apos;t heard yet. Browse local musicians,
-        stream their tracks, and find shows near you.
-      </p>
-
-      <div style={{ display: 'flex', gap: 'var(--space-3)', marginTop: 'var(--space-5)', flexWrap: 'wrap' }}>
-        <Link
-          to="/artists"
-          style={{
-            background: 'var(--accent)',
-            color: 'var(--text-on-amber)',
-            padding: 'var(--space-3) var(--space-5)',
-            borderRadius: 'var(--radius-sm)',
-            textDecoration: 'none',
-            fontWeight: 600,
-          }}
-        >
-          Browse artists
-        </Link>
-        <Link
-          to="/gigs"
-          style={{
-            background: 'transparent',
-            color: 'var(--brand)',
-            padding: 'var(--space-3) var(--space-5)',
-            borderRadius: 'var(--radius-sm)',
-            border: '1px solid var(--border-default)',
-            textDecoration: 'none',
-            fontWeight: 600,
-          }}
-        >
-          Upcoming gigs
-        </Link>
-      </div>
-
-      <section style={{ marginTop: 'var(--space-8)' }}>
-        <h2>v0.3 — Content &amp; discovery</h2>
-        <p>
-          Artists can publish tracks and gigs. Fans can follow artists and get a personalised
-          feed of new music and upcoming shows at <Link to="/account">/account</Link>. The
-          artist directory is live at <Link to="/artists">/artists</Link> and the gig calendar
-          at <Link to="/gigs">/gigs</Link>.
+    <article className="home">
+      <section className="home-hero">
+        <h1 className="home-hero__title">Hear what&apos;s next.</h1>
+        <p className="home-hero__lede">
+          StageOne spotlights indie artists you haven&apos;t heard yet. Browse local musicians,
+          stream their tracks, and find shows near you.
         </p>
-        <p style={{ marginTop: 'var(--space-3)', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
-          Coming in v1.0-rc: AI discovery assistant, accessibility audit, seed data, and
-          production launch.
-        </p>
+
+        <div className="home-hero__ctas">
+          <Link to="/artists" className="home-cta home-cta--primary">
+            Browse artists
+          </Link>
+          <Link to="/gigs" className="home-cta home-cta--secondary">
+            Upcoming gigs
+          </Link>
+        </div>
+      </section>
+
+      <section className="home-features" aria-labelledby="home-features-heading">
+        <h2 id="home-features-heading" className="home-features__heading">
+          What you can do here
+        </h2>
+
+        <div className="home-feature-grid">
+          <div className="home-feature">
+            <h3 className="home-feature__title">Discover artists</h3>
+            <p>
+              Browse the directory or filter by city and genre. Every artist has a press-kit
+              page with tracks, upcoming gigs, and social links.
+            </p>
+          </div>
+
+          <div className="home-feature">
+            <h3 className="home-feature__title">Stream tracks</h3>
+            <p>
+              Click any track to play. A persistent player follows you around the site so the
+              music keeps going while you browse.
+            </p>
+          </div>
+
+          <div className="home-feature">
+            <h3 className="home-feature__title">Follow &amp; get a feed</h3>
+            <p>
+              Sign in to follow artists. Your <Link to="/feed">feed</Link> pulls together their
+              newest tracks and upcoming gigs in one place.
+            </p>
+          </div>
+        </div>
       </section>
     </article>
   );

@@ -21,14 +21,28 @@
   padding-block: var(--space-3);
 }
 
-@media (max-width: 640px) {
+@media (max-width: 767px) {
   .audio-player__inner {
     grid-template-columns: minmax(0, 1fr) auto auto;
     gap: var(--space-3);
+    padding-inline: var(--space-3);
   }
   .audio-player__scrubber {
     grid-column: 1 / -1;
     order: 3;
+  }
+  /* Give the track title priority — hide the "· album" secondary text
+     if the row is cramped. Keep artist name so the tap-through still works. */
+  .audio-player__artist span {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Trim time display to the numbers only (drop the mm:ss on both sides
+     visually feels tight, so keep just current time). */
+  .audio-player__scrubber .audio-player__time:last-child {
+    display: none;
   }
 }
 

@@ -134,3 +134,21 @@
   color: var(--brand);
   white-space: nowrap;
 }
+
+@media (max-width: 480px) {
+  .feed-row {
+    padding: var(--space-3);
+    gap: var(--space-3);
+  }
+  /* On narrow phones, drop the side column so the row is just play + info.
+     Duration/tickets still show in the meta line via existing markup. */
+  .feed-row__side {
+    display: none;
+  }
+  .feed-empty {
+    padding: var(--space-5) var(--space-3);
+  }
+  .feed-section {
+    margin-bottom: var(--space-6);
+  }
+}

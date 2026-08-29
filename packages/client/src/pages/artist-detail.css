@@ -267,7 +267,9 @@
   font-size: var(--fs-caption);
   cursor: pointer;
   color: var(--text-secondary);
-  transition: border-color var(--duration-fast), color var(--duration-fast);
+  transition:
+    border-color var(--duration-fast),
+    color var(--duration-fast);
 }
 
 .track-row__actions button:hover {
@@ -334,7 +336,7 @@
 
 /* ── Responsive ──────────────────────────────────────────────────────── */
 
-@media (max-width: 640px) {
+@media (max-width: 767px) {
   .artist-detail__cover,
   .artist-detail__cover-placeholder {
     height: 180px;
@@ -344,10 +346,12 @@
   .artist-detail__avatar-placeholder {
     width: 96px;
     height: 96px;
+    font-size: 1.75rem;
   }
 
   .artist-detail__avatar-wrap {
     bottom: -48px;
+    left: var(--space-4);
   }
 
   .artist-detail__hero {
@@ -362,11 +366,40 @@
     align-items: flex-start;
   }
 
+  .artist-detail__followers {
+    text-align: left;
+  }
+
+  .artist-detail__name {
+    font-size: 1.75rem; /* smaller than desktop h1 so it doesn't wrap awkwardly */
+  }
+
+  .artist-detail__section {
+    padding: var(--space-4);
+  }
+
   .track-form {
     grid-template-columns: 1fr;
   }
 
   .track-form__full {
     grid-column: 1;
+  }
+
+  /* On narrow screens, hide the album under the title as a second line
+     rather than crowding the row. The row grid stays 3-col but the
+     content wraps naturally. */
+  .track-row {
+    gap: var(--space-2);
+  }
+}
+
+@media (max-width: 480px) {
+  .artist-detail__section {
+    padding: var(--space-3);
+  }
+  /* Ticket buttons + social-link pills wrap onto their own lines. */
+  .artist-detail__socials {
+    gap: var(--space-2);
   }
 }

@@ -25,8 +25,9 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  transition: color var(--duration-fast) var(--easing-default),
-              border-color var(--duration-fast) var(--easing-default);
+  transition:
+    color var(--duration-fast) var(--easing-default),
+    border-color var(--duration-fast) var(--easing-default);
 }
 
 .search-tab:hover {
@@ -139,7 +140,8 @@
   gap: var(--space-8);
 }
 
-.search-section {}
+.search-section {
+}
 
 .search-section__heading {
   font-size: var(--fs-sm, 0.75rem);
@@ -306,6 +308,43 @@ a.search-row:hover {
   font-weight: var(--fw-semibold);
   text-decoration: none;
   white-space: nowrap;
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  /* Tabs can scroll horizontally rather than wrapping onto two lines. */
+  .search-tabs {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    scrollbar-width: none;
+  }
+  .search-tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .search-tab {
+    white-space: nowrap;
+  }
+
+  /* Stack the input above the button so the input has room to breathe. */
+  .search-form__row {
+    flex-direction: column;
+  }
+  .search-submit {
+    width: 100%;
+  }
+
+  /* Rows on narrow screens: hide the trailing meta column when the title
+     is under strain, and shrink the ticket button padding. */
+  .search-row {
+    gap: var(--space-3);
+  }
+}
+
+@media (max-width: 480px) {
+  .search-row__meta {
+    display: none;
+  }
 }
 
 /* Accessibility */

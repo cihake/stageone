@@ -11,6 +11,13 @@
 .gigs-page__toolbar .field {
   margin-bottom: 0;
   min-width: 160px;
+  flex: 1 1 160px;
+}
+
+@media (max-width: 480px) {
+  .gigs-page__toolbar .field {
+    min-width: 100%;
+  }
 }
 
 .gigs-page__toolbar label {
@@ -61,7 +68,8 @@
   box-shadow: var(--shadow-sm);
   text-decoration: none;
   color: inherit;
-  transition: box-shadow var(--duration-default) var(--easing-default),
+  transition:
+    box-shadow var(--duration-default) var(--easing-default),
     border-color var(--duration-default);
 }
 
@@ -233,14 +241,27 @@
 
 /* ── Responsive ──────────────────────────────────────────────────────── */
 
-@media (max-width: 600px) {
+@media (max-width: 767px) {
   .gig-card {
     grid-template-columns: 60px 1fr;
+    padding: var(--space-4);
+    gap: var(--space-3);
   }
 
   .gig-card__actions {
     grid-column: 1 / -1;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 480px) {
+  .gig-card {
+    padding: var(--space-3);
+  }
+  .gig-card__date {
+    min-width: 52px;
+    padding: var(--space-1) var(--space-2);
   }
 }

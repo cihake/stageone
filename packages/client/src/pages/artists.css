@@ -11,6 +11,13 @@
 .artists-page__toolbar .field {
   margin-bottom: 0;
   min-width: 160px;
+  flex: 1 1 160px; /* stretch to fill on wider, wrap gracefully on narrow */
+}
+
+@media (max-width: 480px) {
+  .artists-page__toolbar .field {
+    min-width: 100%;
+  }
 }
 
 .artists-page__toolbar label {
@@ -45,6 +52,15 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: var(--space-5);
+}
+
+/* Narrow phones can't fit two 220px cards side-by-side; drop the min and
+   trust the auto-fill to hand back a single column. */
+@media (max-width: 480px) {
+  .artist-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
 }
 
 /* ── Card ────────────────────────────────────────────────────────────── */

@@ -67,6 +67,17 @@
   --space-8: 4rem;
 
   /* ─── Layout ────────────────────────────────────────────── */
+  /* Responsive breakpoints. Values match the widths we design at:
+     - sm: phones in portrait / small tablets in portrait
+     - md: tablets / small laptops
+     - lg: full-width desktop
+     CSS @media rules can't literally interpolate custom properties into
+     min/max-width, so pages hard-code these numbers, but keeping them here
+     documents the shared convention. */
+  --bp-sm: 480px;
+  --bp-md: 768px;
+  --bp-lg: 1024px;
+
   --container-max: 1200px;
   --radius-sm: 4px;
   --radius-md: 8px;

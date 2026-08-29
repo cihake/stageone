@@ -9,6 +9,7 @@
     "dev": "tsx watch src/server.ts",
     "start": "tsx src/server.ts",
     "seed": "tsx src/scripts/seed.ts",
+    "create-test-users": "tsx src/scripts/create-test-users.ts",
     "typecheck": "tsc --noEmit",
     "build": "tsc --noEmit",
     "lint": "eslint src"

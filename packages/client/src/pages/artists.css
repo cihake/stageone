@@ -49,6 +49,53 @@
 
 /* ── Card ────────────────────────────────────────────────────────────── */
 
+/* Positioning shell so the follow button can float over the card's corner
+   without breaking the card's own click target (the card is a <Link>). */
+.artist-card-wrapper {
+  position: relative;
+}
+
+.artist-card__follow {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  z-index: 1;
+  padding: 4px 12px;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: var(--fw-semibold);
+  border-radius: 999px;
+  border: 1px solid var(--brand);
+  background: var(--color-white);
+  color: var(--brand);
+  cursor: pointer;
+  transition:
+    background var(--duration-fast) var(--easing-default),
+    color var(--duration-fast) var(--easing-default),
+    border-color var(--duration-fast) var(--easing-default);
+}
+
+.artist-card__follow:hover:not(:disabled) {
+  background: var(--brand);
+  color: var(--text-on-navy);
+}
+
+.artist-card__follow--active {
+  background: var(--brand);
+  color: var(--text-on-navy);
+}
+
+.artist-card__follow--active:hover:not(:disabled) {
+  /* Hint at what will happen if they click — the pill becomes "Unfollow" flavored. */
+  background: var(--color-danger);
+  border-color: var(--color-danger);
+}
+
+.artist-card__follow:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
 .artist-card {
   background: var(--bg-surface);
   border: 1px solid var(--border-default);
@@ -59,7 +106,8 @@
   color: inherit;
   display: flex;
   flex-direction: column;
-  transition: box-shadow var(--duration-default) var(--easing-default),
+  transition:
+    box-shadow var(--duration-default) var(--easing-default),
     transform var(--duration-default) var(--easing-default);
 }
 

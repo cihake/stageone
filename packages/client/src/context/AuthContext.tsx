@@ -29,6 +29,13 @@ export interface AuthUser {
   email: string;
   displayName: string;
   role: UserRole;
+  /**
+   * For artist accounts: the _id of the Artist profile they own. Null for
+   * fans/admins, or for artists whose profile hasn't been created yet.
+   * Used client-side to hide "self-only-nonsense" affordances like the
+   * follow button on the artist's own card.
+   */
+  artistId?: string | null;
 }
 
 export interface RegisterInput {

@@ -13,13 +13,16 @@ import type { IGig } from '../models/Gig.js';
 
 // Follow / unfollow
 
-export async function followArtist(
-  userId: string,
-  artistId: string,
-): Promise<IFollow> {
+export async function followArtist(userId: string, artistId: string): Promise<IFollow> {
   const artist = await Artist.findById(artistId);
   if (!artist) throw new HttpError(404, 'Artist not found');
   if (!artist.isApproved) throw new HttpError(403, 'Artist is not yet approved');
+  // An artist can't follow themselves — it would inflate their own follower
+  // count and be nonsensical in the fan feed (their own tracks would appear
+  // as recommendations).
+  if (String(artist.userId) === userId) {
+    throw new HttpError(400, 'You cannot follow your own artist profile');
+  }
 
   try {
     const follow = await Follow.create({
@@ -42,10 +45,7 @@ export async function followArtist(
   }
 }
 
-export async function unfollowArtist(
-  userId: string,
-  artistId: string,
-): Promise<void> {
+export async function unfollowArtist(userId: string, artistId: string): Promise<void> {
   const result = await Follow.deleteOne({
     userId: new Types.ObjectId(userId),
     artistId: new Types.ObjectId(artistId),

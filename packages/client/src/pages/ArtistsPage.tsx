@@ -136,6 +136,7 @@ interface ArtistCardProps {
   isAuthenticated: boolean;
   isFollowing: boolean;
   isBusy: boolean;
+  isSelf: boolean;
   onToggleFollow: (artistId: string, willFollow: boolean) => void;
 }
 
@@ -144,6 +145,7 @@ function ArtistCard({
   isAuthenticated,
   isFollowing,
   isBusy,
+  isSelf,
   onToggleFollow,
 }: ArtistCardProps) {
   return (
@@ -183,13 +185,15 @@ function ArtistCard({
         </div>
       </Link>
 
-      <FollowButton
-        artistId={artist._id}
-        isFollowing={isFollowing}
-        isAuthenticated={isAuthenticated}
-        isBusy={isBusy}
-        onToggle={onToggleFollow}
-      />
+      {!isSelf && (
+        <FollowButton
+          artistId={artist._id}
+          isFollowing={isFollowing}
+          isAuthenticated={isAuthenticated}
+          isBusy={isBusy}
+          onToggle={onToggleFollow}
+        />
+      )}
     </div>
   );
 }
@@ -197,7 +201,8 @@ function ArtistCard({
 // ─── Page ─────────────────────────────────────────────────────────────
 
 export function ArtistsPage() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
+  const myArtistId = user?.artistId ?? null;
   const [city, setCity] = useState('');
   const [genre, setGenre] = useState('');
   const [items, setItems] = useState<ArtistSummary[]>([]);
@@ -370,6 +375,7 @@ export function ArtistsPage() {
                 isAuthenticated={isAuthenticated}
                 isFollowing={followingSet.has(artist._id)}
                 isBusy={pendingIds.has(artist._id)}
+                isSelf={artist._id === myArtistId}
                 onToggleFollow={onToggleFollow}
               />
             ))

@@ -17,7 +17,13 @@
 import type { Types } from 'mongoose';
 import { env } from '../config/env.js';
 import { HttpError } from '../middleware/error.js';
-import { RefreshToken, User, type UserDocument, type UserRole } from '../models/index.js';
+import {
+  Artist,
+  RefreshToken,
+  User,
+  type UserDocument,
+  type UserRole,
+} from '../models/index.js';
 import {
   generateRefreshToken,
   hashToken,
@@ -31,6 +37,13 @@ export interface AuthResult {
     email: string;
     displayName: string;
     role: UserRole;
+    /**
+     * For artist accounts: the _id of the Artist profile they own. Null for
+     * fans/admins, or for artists whose profile hasn't been created yet.
+     * Exposed here so the client can tell "is this me?" — e.g. hide the
+     * follow button on their own artist card.
+     */
+    artistId: string | null;
   };
   accessToken: string;
   refreshToken: string;
@@ -77,12 +90,20 @@ async function issueTokenPair({
   return { accessToken, refreshToken, refreshId: record._id };
 }
 
-function publicUser(user: UserDocument) {
+async function publicUser(user: UserDocument) {
+  // Look up the owned artist profile ID for artist accounts. One indexed
+  // query per auth response; fans/admins skip the lookup entirely.
+  let artistId: string | null = null;
+  if (user.role === 'artist') {
+    const artist = await Artist.findOne({ userId: user._id }).select('_id').lean();
+    if (artist) artistId = String(artist._id);
+  }
   return {
     id: String(user._id),
     email: user.email,
     displayName: user.displayName,
     role: user.role,
+    artistId,
   };
 }
 
@@ -110,7 +131,7 @@ export async function registerUser(input: {
     user,
     createdByIp: input.createdByIp,
   });
-  return { user: publicUser(user), accessToken, refreshToken };
+  return { user: await publicUser(user), accessToken, refreshToken };
 }
 
 export async function loginUser(input: {
@@ -132,7 +153,7 @@ export async function loginUser(input: {
     user,
     createdByIp: input.createdByIp,
   });
-  return { user: publicUser(user), accessToken, refreshToken };
+  return { user: await publicUser(user), accessToken, refreshToken };
 }
 
 export async function refreshSession(input: {
@@ -170,7 +191,7 @@ export async function refreshSession(input: {
     createdByIp: input.createdByIp,
     replacedFromId: record._id,
   });
-  return { user: publicUser(user), accessToken, refreshToken };
+  return { user: await publicUser(user), accessToken, refreshToken };
 }
 
 export async function logoutSession(presentedToken: string | null): Promise<void> {
